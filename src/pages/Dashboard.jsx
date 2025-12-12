@@ -11,7 +11,7 @@ import {
 } from "recharts";
 import { useTranslation } from "react-i18next";
 import useAuth from "../auth/useAuth";
-import AdminSidebar from "../layouts/AdminSidebar";
+import AdminSidebar from "../layouts/Sidebar";
 import Header from "../layouts/AdminHeader";
 import API from "../api/axios";
 
@@ -21,9 +21,9 @@ const Dashboard = () => {
 
   const [stats, setStats] = useState({
     total_users: 0,
-    total_companies: 0,
-    total_customers: 0,
-    logged_in_users: [],
+    total_seniors: 0,
+    total_employees: 0,
+    //logged_in_users: [],
   });
   const [chartData, setChartData] = useState([]);
   const [filter, setFilter] = useState("7d");
@@ -65,11 +65,8 @@ const Dashboard = () => {
 
   const fetchDashboard = async () => {
     try {
-      const { data } = await API.post("/admin/dashboard");
-      if (data?.status) {
-        setStats(data.data);
-        setFilteredUsers(data.data.logged_in_users);
-      }
+      const { data } = await API.get("/admin/dashboard");
+      setStats(data?.data);
     } catch (err) {
       console.error("Failed to fetch dashboard:", err);
     }
@@ -91,24 +88,24 @@ const Dashboard = () => {
     fetchDashboard();
   }, []);
 
-  useEffect(() => {
-    const range = getDateRange(filter);
-    fetchChartData(range);
-  }, [filter]);
+  // useEffect(() => {
+  //   const range = getDateRange(filter);
+  //   fetchChartData(range);
+  // }, [filter]);
 
-  useEffect(() => {
-    if (searchTerm) {
-      setFilteredUsers(
-        stats.logged_in_users.filter(
-          (user) =>
-            user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            user.user_key.toLowerCase().includes(searchTerm.toLowerCase())
-        )
-      );
-    } else {
-      setFilteredUsers(stats.logged_in_users);
-    }
-  }, [searchTerm, stats.logged_in_users]);
+  // useEffect(() => {
+  //   if (searchTerm) {
+  //     setFilteredUsers(
+  //       stats.logged_in_users.filter(
+  //         (user) =>
+  //           user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //           user.user_key.toLowerCase().includes(searchTerm.toLowerCase())
+  //       )
+  //     );
+  //   } else {
+  //     setFilteredUsers(stats.logged_in_users);
+  //   }
+  // }, [searchTerm, stats.logged_in_users]);
 
   return (
     <div className="main">
@@ -120,13 +117,12 @@ const Dashboard = () => {
           <div className="dashboard-top-section">
             <div className="card" style={{ flex: 3 }}>
               <div className="card-body">
-                <ul className="chart-filter">
+                {/* <ul className="chart-filter">
                   {["Today", "7d", "15d", "1m", "1y"].map((label) => (
                     <li
                       key={label}
-                      className={`chart-filter-item ${
-                        filter === label ? "active" : ""
-                      }`}
+                      className={`chart-filter-item ${filter === label ? "active" : ""
+                        }`}
                     >
                       <button
                         className="chart-filter-btn"
@@ -225,27 +221,27 @@ const Dashboard = () => {
                       }}
                     />
                   </AreaChart>
-                </ResponsiveContainer>
+                </ResponsiveContainer> */}
               </div>
             </div>
 
             <div className="stats-cards">
               <div className="stats-card">
-                <h4>{t("total.users")}</h4>
+                <h4>{t("seniors.plural") || 'Seniors'}</h4>
+                <h2>{stats.total_seniors}</h2>
+              </div>
+              <div className="stats-card">
+                <h4>{t("users.plural") || 'Users'}</h4>
                 <h2>{stats.total_users}</h2>
               </div>
               <div className="stats-card">
-                <h4>{t("total.companies")}</h4>
-                <h2>{stats.total_companies}</h2>
-              </div>
-              <div className="stats-card">
-                <h4>{t("total.customers")}</h4>
-                <h2>{stats.total_customers}</h2>
+                <h4>{t("employees.plural") || 'Employees'}</h4>
+                <h2>{stats.total_employees}</h2>
               </div>
             </div>
           </div>
 
-          <div className="table-container">
+          {/* <div className="table-container">
             <div className="table-header">
               <h3 className="table-title">{t("users.logged_list")}</h3>
               <div className="table-actions">
@@ -287,7 +283,7 @@ const Dashboard = () => {
                 )}
               </tbody>
             </table>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

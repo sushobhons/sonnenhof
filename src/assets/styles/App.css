@@ -2,7 +2,8 @@
 
 :root {
   /* ========== Brand Theme ========== */
-  --brand-color: #0f4166; /* core theme color */
+  --brand-color: #5a5a5a;
+  /* core theme color */
 
   /* ========== Primary (Actions, Buttons) ========== */
   --color-primary-bg: #155c8f;
@@ -230,7 +231,8 @@ button:focus {
 
   /* Fix width issue */
   width: calc(100% - var(--leftbar-width));
-  box-sizing: border-box; /* ensures padding doesn't push it past scrollbar */
+  box-sizing: border-box;
+  /* ensures padding doesn't push it past scrollbar */
 }
 
 .app-header__title {
@@ -259,6 +261,7 @@ button:focus {
   background: url("../images/arrow-bottom-white.svg") right center no-repeat;
   padding-right: 25px;
 }
+
 .app-header__user img {
   margin-right: 12px;
 }
@@ -267,11 +270,13 @@ button:focus {
   position: relative;
   margin-left: 20px;
 }
+
 .app-header__dropdown-menu {
   display: none;
   position: absolute;
   right: 0;
   top: 40px;
+  padding: 0;
   width: 175px;
   background: var(--dropdown-bg);
   border-radius: 4px;
@@ -279,6 +284,7 @@ button:focus {
   overflow: hidden;
   z-index: 10;
 }
+
 .app-header__dropdown-menu.open {
   display: block;
 }
@@ -287,10 +293,12 @@ button:focus {
   list-style: none;
   width: 100%;
 }
+
 .app-header__dropdown-link,
 .app-header__logout-btn {
   display: flex;
   align-items: center;
+  gap: 10px;
   width: 100%;
   padding: 10px 15px;
   font-size: 14px;
@@ -301,6 +309,7 @@ button:focus {
   cursor: pointer;
   text-decoration: none;
 }
+
 .app-header__dropdown-link:hover,
 .app-header__logout-btn:hover {
   background-color: var(--dropdown-hover-bg);
@@ -310,6 +319,7 @@ button:focus {
 .app-header__theme-toggle {
   margin-left: 12px;
 }
+
 .app-header__theme-btn {
   background: transparent;
   border: none;
@@ -321,10 +331,12 @@ button:focus {
   color: var(--header-text);
   transition: transform 0.2s ease, color 0.3s ease;
 }
+
 .app-header__theme-btn svg {
   width: 22px;
   height: 22px;
 }
+
 .app-header__theme-btn:hover {
   transform: scale(1.15);
 }
@@ -357,19 +369,20 @@ button:focus {
   top: 0;
   left: 0;
   bottom: 0;
-  z-index: 200; /* stays under header but above container */
+  z-index: 200;
+  /* stays under header but above container */
 }
 
 .sidebar.collapsed {
   width: var(--leftbar-width-sm);
 }
 
-.sidebar.collapsed ~ .app-header {
+.sidebar.collapsed~.app-header {
   margin-left: var(--leftbar-width-sm);
   width: calc(100% - var(--leftbar-width-sm));
 }
 
-.sidebar.collapsed ~ .container {
+.sidebar.collapsed~.container {
   margin-left: var(--leftbar-width-sm);
 }
 
@@ -380,11 +393,13 @@ button:focus {
   padding: 0 20px;
   transition: all 0.3s ease;
 }
+
 .sidebar-header img {
   height: 45px;
   transition: all 0.3s ease;
   width: 100%;
 }
+
 .sidebar-header.collapsed {
   justify-content: center;
   padding: 0;
@@ -399,6 +414,7 @@ button:focus {
   right: 0;
   transition: all 0.3s ease;
 }
+
 .sidebar.collapsed .sidebar-toggle {
   right: -29px;
 }
@@ -421,16 +437,19 @@ button:focus {
   z-index: 20;
   transition: background 0.3s ease;
 }
+
 .collapse-strip:hover {
   background: var(--sidebar-active-bg);
 }
+
 .collapse-strip svg {
   width: 14px;
   height: 14px;
   fill: var(--sidebar-text);
   transition: transform 0.3s ease;
 }
-.sidebar.collapsed + .collapse-strip svg {
+
+.sidebar.collapsed+.collapse-strip svg {
   transform: rotate(180deg);
 }
 
@@ -470,6 +489,7 @@ button:focus {
 .sidebar-menu li a span {
   white-space: nowrap;
 }
+
 .sidebar-menu li a.active,
 .sidebar-menu li a:hover {
   background: var(--sidebar-active-bg);
@@ -479,9 +499,11 @@ button:focus {
 .sidebar.collapsed .sidebar-menu li a {
   justify-content: center;
 }
+
 .sidebar.collapsed .sidebar-menu li a img {
   margin: 0;
 }
+
 .sidebar.collapsed .sidebar-menu li a span {
   display: none;
 }
@@ -490,6 +512,7 @@ button:focus {
 .sidebar-menu::-webkit-scrollbar {
   width: 6px;
 }
+
 .sidebar-menu::-webkit-scrollbar-thumb {
   background: rgba(0, 0, 0, 0.2);
   border-radius: 3px;
@@ -530,63 +553,53 @@ button:focus {
   color: var(--color-primary-text);
   box-shadow: 0 2px 6px rgba(15, 65, 102, 0.25);
 }
+
 .btn-primary:hover {
   background-color: var(--color-primary-hover);
   box-shadow: 0 4px 10px rgba(15, 65, 102, 0.35);
 }
+
 .btn-primary:active {
   box-shadow: 0 1px 3px rgba(15, 65, 102, 0.2);
 }
 
 .btn-danger {
-  background: linear-gradient(
-    135deg,
-    var(--color-danger-bg),
-    var(--color-danger-hover)
-  );
+
+  background: var(--color-danger-bg);
   color: var(--color-danger-text);
   box-shadow: 0 4px 10px rgba(211, 47, 47, 0.3),
     inset 0 -2px 6px rgba(255, 255, 255, 0.15);
 }
+
 .btn-danger:hover {
-  background: linear-gradient(
-    135deg,
-    var(--color-danger-hover),
-    var(--color-danger-bg)
-  );
+  background: var(--color-danger-hover);
   box-shadow: 0 6px 14px rgba(183, 28, 28, 0.4),
     inset 0 -3px 8px rgba(255, 255, 255, 0.2);
 }
 
 .btn-success {
-  background: linear-gradient(
-    135deg,
-    var(--color-success-bg),
-    var(--color-success-hover)
-  );
+  background: var(--color-success-bg);
   color: var(--color-success-text);
   box-shadow: 0 4px 10px rgba(76, 137, 54, 0.3),
     inset 0 -2px 6px rgba(255, 255, 255, 0.15);
 }
+
 .btn-success:hover {
-  background: linear-gradient(
-    135deg,
-    var(--color-success-hover),
-    var(--color-success-bg)
-  );
+  background: var(--color-success-bg);
   box-shadow: 0 6px 14px rgba(59, 111, 42, 0.4),
     inset 0 -3px 8px rgba(255, 255, 255, 0.2);
 }
 
 .btn-secondary {
-  border: 1px solid var(--color-border);
+  /* border: 1px solid var(--color-border); */
   background: var(--color-bg-light);
   color: var(--color-primary-bg);
 }
+
 .btn-secondary:hover {
   background: var(--color-primary-hover);
   color: var(--color-primary-text);
-  border-color: var(--color-primary-hover);
+  /* border-color: var(--color-primary-hover); */
 }
 
 .btn-ghost {
@@ -594,6 +607,7 @@ button:focus {
   color: var(--brand-color);
   border: 1px solid transparent;
 }
+
 .btn-ghost:hover {
   background: rgba(15, 65, 102, 0.08);
   border-color: rgba(15, 65, 102, 0.15);
@@ -605,11 +619,13 @@ button:focus {
   font-size: 12px;
   height: 28px;
 }
+
 .btn-md {
   padding: 0.5rem 1.25rem;
   font-size: 14px;
   height: 36px;
 }
+
 .btn-lg {
   padding: 0.75rem 1.5rem;
   font-size: 16px;
@@ -639,6 +655,7 @@ button:focus {
   transform: scale(0.8);
   transition: transform 0.3s, opacity 0.3s;
 }
+
 .btn:active::after {
   opacity: 1;
   transform: scale(1);
@@ -656,17 +673,37 @@ button:focus {
   content: "＋";
   margin-right: 6px;
 }
+
 .btn.edit::before {
   content: "✎";
   margin-right: 6px;
 }
+
 .btn.delete::before {
   content: "🗑";
   margin-right: 6px;
 }
+
 .btn.view::before {
   content: "👁";
   margin-right: 6px;
+}
+
+.btn-action {
+  border-radius: 4px;
+  height: 28px;
+  /* border: 1px solid var(--color-border); */
+  font-size: 13px;
+  font-weight: 500;
+  font-family: "Inter", sans-serif;
+  padding: 0 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: var(--color-bg-light);
+  text-decoration: none;
 }
 
 /* ================================
@@ -680,6 +717,7 @@ button:focus {
   width: 150px;
   padding: 5px;
 }
+
 .language-loading {
   padding: 10px;
   text-align: center;
@@ -986,11 +1024,45 @@ button:focus {
 /* ================================
    Table Header
 ================================ */
-.table-header {
+/* .table-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
+} */
+/* Make search and controls stack nicely */
+.table-header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  /* vertical gap between rows */
+  align-items: stretch;
+  padding-bottom: 10px;
+}
+
+/* first/top row: title + add button */
+.table-header__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* title left, button right */
+  gap: 12px;
+}
+
+/* left side inside top row (title) */
+.table-header__title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* second/bottom row: search + filters */
+.table-header__bottom {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  /* wrap on small screens */
 }
 
 .table-title {
@@ -1013,13 +1085,12 @@ button:focus {
   height: 36px;
   border: 1px solid var(--color-border);
   border-radius: 4px;
-  padding: 0 20px 0 45px;
+  padding: 0 20px;
   font-size: 14px;
   font-family: "Inter", sans-serif;
   font-weight: 400;
   color: var(--color-text);
-  background: var(--popup-bg) url("../images/search-icon.svg") 20px center
-    no-repeat;
+  background: var(--popup-bg);
   outline: none !important;
 }
 
@@ -1027,8 +1098,7 @@ button:focus {
   width: 135px;
   border-radius: 4px 0 0 4px;
   padding: 0 20px 0 10px;
-  background: var(--popup-bg) url("../images/date-icon.svg") right 10px center
-    no-repeat;
+  background: var(--popup-bg) url("../images/date-icon.svg") right 10px center no-repeat;
   appearance: none;
   margin-top: 5px;
 }
@@ -1041,6 +1111,33 @@ button:focus {
 .search-input.date::-webkit-calendar-picker-indicator {
   -webkit-appearance: none;
   opacity: 0;
+}
+
+.select-input {
+  width: 190px;
+  height: 36px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: 0 20px;
+  font-size: 14px;
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+  color: var(--color-text);
+  background: var(--popup-bg);
+  outline: none !important;
+
+  /* Remove default arrow */
+  /* appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none; */
+
+  /* Add custom dropdown arrow (optional) */
+  /* background-image: url("../images/chevron-down.svg");
+  background-repeat: no-repeat;
+  background-position: calc(100% - 16px) center;
+  background-size: 12px; */
+
+  cursor: pointer;
 }
 
 /* ================================
@@ -1078,6 +1175,14 @@ button:focus {
   font-size: 14px;
 }
 
+.table tbody td.count {
+  text-align: center;
+}
+
+.table tbody td.count a {
+  text-decoration: none;
+}
+
 .table tbody tr:hover {
   background: var(--color-primary-light-bg);
   transition: background 0.2s ease;
@@ -1106,6 +1211,7 @@ button:focus {
 .table-wrapper .table td .btn-view {
   color: var(--color-primary-bg);
 }
+
 .table-wrapper .table td .btn-view:hover {
   background: var(--color-primary-hover);
   color: var(--color-primary-text);
@@ -1117,6 +1223,7 @@ button:focus {
   color: var(--color-danger-bg);
   margin-left: 8px;
 }
+
 .table-wrapper .table td .btn-trash:hover {
   background: var(--color-danger-hover);
   color: var(--color-danger-text);
@@ -1130,6 +1237,7 @@ button:focus {
   background-image: url("../images/check-icon.svg");
   margin-left: 8px;
 }
+
 .table-wrapper .table td .btn-approve:hover {
   background-color: var(--color-success-light-hover);
 }
@@ -1141,10 +1249,12 @@ button:focus {
   width: 8px;
   height: 8px;
 }
+
 .table-wrapper::-webkit-scrollbar-thumb {
   background-color: rgba(0, 0, 0, 0.3);
   border-radius: 4px;
 }
+
 .table-wrapper::-webkit-scrollbar-track {
   background-color: transparent;
 }
@@ -1177,8 +1287,7 @@ button:focus {
   font-weight: 500;
   font-family: "Inter", sans-serif;
   border-radius: 4px;
-  background: var(--popup-bg) url("../images/arrow-bottom.svg") right 10px
-    center no-repeat;
+  background: var(--popup-bg) url("../images/arrow-bottom.svg") right 10px center no-repeat;
   appearance: none;
   color: var(--popup-text);
   padding: 0 25px 0 10px;
@@ -1282,6 +1391,7 @@ button:focus {
 
 .btn-group {
   display: flex;
+  justify-content: right;
   gap: 12px;
   margin-top: 16px;
 }
@@ -1318,6 +1428,10 @@ button:focus {
 .card .btn {
   height: 48px;
 } */
+
+.mobile-menu-btn {
+  display: none;
+}
 
 .MuiCircularProgress-root circle {
   stroke: var(--brand-color);
@@ -1379,7 +1493,7 @@ button:focus {
   box-sizing: border-box;
 }
 
-.form-container > ul > li > label {
+.form-container>ul>li>label {
   display: block;
   margin-bottom: 10px;
   font-size: 14.5px;
@@ -1409,8 +1523,7 @@ button:focus {
 
 .form-container select {
   appearance: none;
-  background: var(--dropdown-bg) url("../images/arrow-bottom.svg") right 10px
-    center no-repeat;
+  background: var(--dropdown-bg) url("../images/arrow-bottom.svg") right 10px center no-repeat;
 }
 
 .form-container input[type="checkbox"] {
@@ -1566,21 +1679,26 @@ input[type="color"].form-control {
 .modal-sm {
   width: 400px;
 }
+
 .modal-md {
   width: 570px;
 }
+
 .modal-lg {
   width: 800px;
 }
+
 .modal-xl {
   width: 1140px;
 }
+
 .modal-full {
   width: 95%;
   max-width: 1400px;
 }
 
 @media (max-width: 768px) {
+
   .modal-sm,
   .modal-md,
   .modal-lg,
@@ -1595,16 +1713,18 @@ input[type="color"].form-control {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 25px;
+  padding-bottom: 15px;
   border-bottom: 1px solid var(--color-border);
   flex-shrink: 0;
 }
+
 .popup-header h2 {
   font-size: 20px;
   font-weight: 600;
   color: var(--popup-heading);
   margin: 0;
 }
+
 .popup-header .popup-close {
   cursor: pointer;
   transition: transform 0.2s ease;
@@ -1614,6 +1734,7 @@ input[type="color"].form-control {
   margin-bottom: -8px;
   margin-left: auto;
 }
+
 .popup-header .popup-close:hover {
   color: var(--color-text);
   text-decoration: none;
@@ -1637,7 +1758,12 @@ input[type="color"].form-control {
 
 .popup-footer {
   flex-shrink: 0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 15px;
 }
+
 .popup-footer .btn-primary {
   width: 100%;
   height: 48px;
@@ -1663,6 +1789,7 @@ input[type="color"].form-control {
   cursor: pointer;
   transition: background 0.2s ease;
 }
+
 .popup-action:hover {
   background: var(--color-primary-hover);
 }
@@ -1745,6 +1872,81 @@ input[type="color"].form-control {
   }
 }
 
+/* Grid wrapper */
+.grid-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 28px;
+  padding: 20px 0;
+}
+
+/* Card */
+.image-card {
+  background: var(--dropdown-bg);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Hover effect */
+.image-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
+}
+
+/* Image container with fixed uniform size */
+.image-card .image-box {
+  width: 100%;
+  height: 260px;
+  /* uniform height */
+  background: var(--dropdown-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Actual image */
+.image-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* perfect uniform grid look */
+}
+
+/* Body */
+.card-body {
+  padding: 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Title */
+.card-body h4 {
+  font-size: 15px;
+  font-weight: 600;
+  margin: auto;
+  padding: 10px 0;
+  color: var(--dropdown-text);
+  line-height: 1.3;
+}
+
+/* Actions */
+.card-actions {
+  margin-top: auto;
+}
+
+.card-actions .btn {
+  width: 100%;
+}
+
+
+
 /* ===== Layout ===== */
 .admin-login {
   display: flex;
@@ -1815,7 +2017,8 @@ input[type="color"].form-control {
 
 .admin-login__form input.form-control {
   height: 48px;
-  padding: 0 40px 0 12px; /* space for toggle */
+  padding: 0 40px 0 12px;
+  /* space for toggle */
   width: 100%;
   box-sizing: border-box;
   border: 1px solid #ccc;
@@ -1886,7 +2089,8 @@ input[type="color"].form-control {
   }
 
   .sidebar-menu {
-    flex-direction: column; /* stacked menu */
+    flex-direction: column;
+    /* stacked menu */
   }
 
   .dashboard-widget,
@@ -1902,7 +2106,8 @@ input[type="color"].form-control {
   }
 
   .sidebar {
-    width: 80px; /* collapsed sidebar */
+    width: 80px;
+    /* collapsed sidebar */
   }
 
   .sidebar.collapsed {
@@ -1910,7 +2115,8 @@ input[type="color"].form-control {
   }
 
   .sidebar-menu li a span {
-    display: none; /* hide labels, show icons only */
+    display: none;
+    /* hide labels, show icons only */
   }
 
   .app-header h2 {
@@ -1930,5 +2136,386 @@ input[type="color"].form-control {
 
   .app-header h2 {
     font-size: 22px;
+  }
+}
+
+/* ================================
+   Responsive fixes (mobile-first)
+   Add this at the end of your stylesheet
+   ================================ */
+
+/* On small screens - hide sidebar and let header/container be full width */
+@media (max-width: 768px) {
+
+  .mobile-menu-btn {
+    display: inline-flex;
+  }
+
+  .sidebar {
+    transform: translateX(-110%);
+    width: var(--leftbar-width-sm, 260px);
+    visibility: hidden;
+    opacity: 0;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+    position: fixed;
+    z-index: 300;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    overflow-y: auto;
+    background: var(--sidebar-bg, #fff);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  /* When open via body class, show full width menu */
+  body.sidebar-open .sidebar {
+    transform: translateX(0);
+    visibility: visible;
+    opacity: 1;
+    width: 100%;
+    max-width: 100%;
+    left: 0;
+  }
+
+  /* Show the close button inside sidebar header on mobile */
+  .sidebar-header .close-btn {
+    display: inline-flex;
+    margin-left: auto;
+    font-size: 26px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px 12px;
+  }
+
+  /* Ensure menu labels are visible in mobile full width */
+  .sidebar-menu li a span {
+    display: inline-block;
+  }
+
+  /* optionally make list items bigger for tap targets */
+  .sidebar-menu li a {
+    padding: 14px 18px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  /* Make header and container use full width (no left margin) */
+  .app-header,
+  .container {
+    margin-left: 0 !important;
+    width: 100% !important;
+    box-sizing: border-box;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  /* Adjust header padding for small screens */
+  .app-header {
+    padding: 0 12px;
+    height: 60px;
+  }
+
+  /* Give main content some vertical breathing room */
+  .container {
+    padding-top: calc(var(--topbar-height));
+  }
+
+  .dashboard-container {
+    padding: 5px;
+  }
+
+  /* Table/Card should be full width with internal scrolling when needed */
+  .table-container {
+    padding: 12px !important;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 100%;
+    box-shadow: none;
+  }
+
+  /* Reduce card paddings and font-sizes on small devices */
+  .card-body {
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .table-wrapper {
+    border-radius: 6px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Ensure table doesn't force fixed column widths */
+  .table {
+    min-width: 100%;
+    width: 100%;
+    display: table;
+  }
+
+  .table thead th,
+  .table tbody td {
+    padding: 10px 8px;
+    white-space: nowrap;
+    font-size: 13px;
+  }
+
+  .table-header__bottom {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .table-header__top {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .table-header__title-wrap {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+
+  .table-actions {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  /* Footer controls wrap */
+  .table-footer {
+    flex-direction: column;
+    gap: 8px;
+    align-items: stretch;
+  }
+
+  .table-footer .left,
+  .table-footer .center,
+  .table-footer .right {
+    width: 100%;
+    justify-content: space-around;
+  }
+
+  /* Pagination - smaller buttons */
+  .table-footer .right .previous-btn,
+  .table-footer .right .next-btn {
+    min-width: 48px;
+    padding: 6px 8px;
+  }
+
+  .search-input,
+  .select-input {
+    width: 100% !important;
+    max-width: 100%;
+    box-sizing: border-box;
+    display: block;
+  }
+
+  .select-input {
+    width: auto;
+  }
+
+  /* Grid wrapper: single column on small screens */
+  .grid-wrapper {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 12px;
+  }
+
+  /* reduce sidebar collapse-strip visibility on mobile */
+  .collapse-strip {
+    display: none;
+  }
+
+  /* Ensure modal/popups take full width on mobile */
+  .popup-container,
+  .modal-sm,
+  .modal-md,
+  .modal-lg,
+  .modal-xl {
+    width: 95% !important;
+    max-width: 95% !important;
+    margin: 0 8px;
+  }
+
+  /* Prevent awkward horizontal scroll inside cards when table is small */
+  .image-card .image-box {
+    height: 180px;
+  }
+
+  /* reduce image height for mobile */
+}
+
+/* Optional: make sidebar smaller on tablet but still visible */
+@media (min-width: 769px) and (max-width: 1200px) {
+  .sidebar {
+    width: var(--leftbar-width, 240px);
+    transform: none;
+    visibility: visible;
+    opacity: 1;
+    position: relative;
+    height: auto;
+  }
+
+  /* when collapsed, hide labels */
+  .sidebar.collapsed .sidebar-menu li a span {
+    display: none;
+  }
+
+  /* collapsed narrow width */
+  .sidebar.collapsed {
+    width: var(--leftbar-width-collapsed, 80px);
+  }
+
+  /* hide the internal close button on desktop */
+  .sidebar-header .close-btn {
+    display: none;
+  }
+
+  .app-header,
+  .container {
+    margin-left: var(--leftbar-width-sm);
+    width: calc(100% - var(--leftbar-width-sm));
+  }
+}
+
+/* Utility: if you want to force hide sidebar via body class .sidebar-hidden */
+.sidebar-hidden .sidebar {
+  transform: translateX(-110%);
+  visibility: hidden;
+  opacity: 0;
+}
+
+.sidebar-hidden .app-header,
+.sidebar-hidden .container {
+  margin-left: 0 !important;
+  width: 100% !important;
+}
+
+@media (max-width: 768px) {
+
+  /* full viewport safe area */
+  .admin-login {
+    padding: env(safe-area-inset-top, 16px) env(safe-area-inset-right, 12px) env(safe-area-inset-bottom, 24px) env(safe-area-inset-left, 12px);
+  }
+
+  /* logo */
+  .admin-login__logo {
+    margin-bottom: 20px;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  /* box becomes full width with breathing room */
+  .admin-login__box {
+    width: 100%;
+    max-width: 520px;
+    /* keeps it reasonable on larger small devices */
+    padding: 28px 18px;
+    margin: 0 8px;
+    border-radius: 8px;
+    box-shadow: 6px 6px 18px rgba(168, 202, 226, 0.28);
+  }
+
+  /* typography tweaks */
+  .admin-login__box h2 {
+    font-size: 24px;
+    margin-bottom: 6px;
+  }
+
+  .admin-login__box p {
+    font-size: 14px;
+    margin-bottom: 20px;
+    padding-bottom: 18px;
+  }
+
+  /* form layout: full width inputs */
+  .admin-login__form .form-group {
+    margin-bottom: 18px;
+  }
+
+  .admin-login__form label {
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+
+  .admin-login__form input.form-control {
+    height: 48px;
+    padding: 0 44px 0 12px;
+    /* keep room for icons/toggle */
+    font-size: 15px;
+  }
+
+  .admin-login__form .input-wrapper {
+    width: 100%;
+  }
+
+  /* password toggle: slightly larger tappable area */
+  .admin-login__form .password-toggle {
+    right: 12px;
+    width: 28px;
+    height: 28px;
+  }
+
+  /* button full width */
+  .admin-login__form button.btn-primary {
+    width: 100%;
+    display: block;
+    padding: 0 16px;
+    height: 48px;
+    font-size: 16px;
+  }
+
+  /* forgot link centered and spaced */
+  .admin-login__forgot {
+    margin-top: 12px;
+    font-size: 14px;
+  }
+
+  /* avoid horizontal clipping */
+  .admin-login__box,
+  .admin-login__form input,
+  .admin-login__form textarea,
+  .admin-login__form select,
+  .admin-login__form button {
+    box-sizing: border-box;
+    max-width: 100%;
+    overflow: visible;
+  }
+}
+
+/* ===== Extra small phones ===== */
+@media (max-width: 420px) {
+  .admin-login__box {
+    padding: 20px 14px;
+    border-radius: 6px;
+  }
+
+  .admin-login__box h2 {
+    font-size: 20px;
+  }
+
+  .admin-login__box p {
+    font-size: 13px;
+    padding-bottom: 14px;
+  }
+
+  .admin-login__form input.form-control {
+    height: 46px;
+    padding-right: 44px;
+  }
+
+  .admin-login__form button.btn-primary {
+    font-size: 15px;
+    height: 46px;
+  }
+}
+
+/* ===== Optional: center layout on very wide devices ===== */
+@media (min-width: 1024px) {
+  .admin-login__box {
+    width: 475px;
+    /* keep original desktop width */
+    padding: 40px 35px;
   }
 }

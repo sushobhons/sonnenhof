@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import AdminSidebar from "../layouts/AdminSidebar";
@@ -12,10 +13,11 @@ import { warningImg, CrossIcon } from "@/assets/images";
 
 const BranchList = () => {
   const { t } = useTranslation();
+  const { companyId } = useParams();
 
   // ----------------- State -----------------
   const [loading, setLoading] = useState(false);
-  const [userList, setBranchList] = useState([]);
+  const [branchList, setBranchList] = useState([]);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [page, setPage] = useState(1);
@@ -37,15 +39,12 @@ const BranchList = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [formData, setFormData] = useState({
-    role_id: "",
     name: "",
-    email: "",
-    username: "",
-    password: "",
-    password_confirmation: "",
+    street: "",
+    postcode: "",
+    city: "",
+    country: "",
   });
-
-  const [userTypeList, setBranchTypeList] = useState([]);
 
   // ----------------- Handlers -----------------
   const handleChange = (e) => {
@@ -57,26 +56,24 @@ const BranchList = () => {
     setFormMode("add");
     setSelectedBranch(null);
     setFormData({
-      role_id: "",
       name: "",
-      email: "",
-      username: "",
-      password: "",
-      password_confirmation: "",
+      street: "",
+      postcode: "",
+      city: "",
+      country: "",
     });
     setShowPopup(true);
   };
 
-  const openEditPopup = (user) => {
+  const openEditPopup = (branch) => {
     setFormMode("edit");
-    setSelectedBranch(user);
+    setSelectedBranch(branch);
     setFormData({
-      role_id: user.role_id || "",
-      name: user.name || "",
-      email: user.email || "",
-      username: user.username || "",
-      password: "",
-      password_confirmation: "",
+      name: branch.name || "",
+      street: branch.street || "",
+      postcode: branch.postcode || "",
+      city: branch.city || "",
+      country: branch.country || "",
     });
     setShowPopup(true);
   };
@@ -103,9 +100,11 @@ const BranchList = () => {
       let response;
 
       if (reqId) {
-        response = await API.delete(`/admin/branches/${reqId}`);
+        response = await API.delete(
+          `/companies/${companyId}/branches/${reqId}`
+        );
       } else {
-        response = await API.post(`/admin/branches/delete`, {
+        response = await API.post(`/companies/${companyId}/branches/delete`, {
           ids: selectedIds,
         });
       }
@@ -115,7 +114,7 @@ const BranchList = () => {
           theme: "dark",
           autoClose: 2000,
         });
-        getBranchs();
+        getBranches();
         setSelectedIds([]);
         setReqId(null);
         setOpenDeleteModal(false);
@@ -133,10 +132,10 @@ const BranchList = () => {
   };
 
   // ----------------- API Calls -----------------
-  const getBranchs = async () => {
+  const getBranches = async () => {
     try {
       setLoading(true);
-      const { data } = await API.post("/admin/user-list", {
+      const { data } = await API.get(`/companies/${companyId}/branches`, {
         search: searchTerm,
         page,
         per_page: perPage,
@@ -148,32 +147,22 @@ const BranchList = () => {
       setTotalPages(data?.data?.last_page || 1);
       setTotalRecords(data?.data?.total || 0);
     } catch (error) {
-      console.error("Error fetching branches:", error);
+      console.error("Error fetching companies:", error);
       setBranchList([]);
     } finally {
       setLoading(false);
     }
   };
 
-  const getRoles = async () => {
-    try {
-      const { data } = await API.get("/admin/roles");
-      setBranchTypeList(data?.data || []);
-    } catch (error) {
-      console.error("Error fetching roles:", error);
-      setBranchTypeList([]);
-    }
-  };
-
   const addBranch = async (data) => {
     setIsSubmitting(true);
     try {
-      const response = await API.post(`/admin/add-user`, data);
+      const response = await API.post(`/companies/${companyId}/branches`, data);
       toast.success(response?.data?.message || t("common.create.success"), {
         theme: "dark",
         autoClose: 2000,
       });
-      getBranchs();
+      getBranches();
       closePopup();
     } catch (error) {
       toast.error(error?.response?.data?.message || t("common.create.error"), {
@@ -185,16 +174,19 @@ const BranchList = () => {
     }
   };
 
-  const updateBranch = async (userId, data) => {
+  const updateBranch = async (branchId, data) => {
     setIsSubmitting(true);
     try {
-      const payload = { ...data, user_id: userId };
-      const response = await API.post(`/admin/update-user`, payload);
+      const payload = { ...data, branch_id: branchId };
+      const response = await API.put(
+        `/companies/${companyId}/branches/${branchId}`,
+        payload
+      );
       toast.success(response?.data?.message || t("common.update.success"), {
         theme: "dark",
         autoClose: 2000,
       });
-      getBranchs();
+      getBranches();
       closePopup();
     } catch (error) {
       toast.error(error?.response?.data?.message || t("common.update.error"), {
@@ -208,24 +200,20 @@ const BranchList = () => {
 
   // ----------------- Effects -----------------
   useEffect(() => {
-    getBranchs();
+    getBranches();
   }, [searchTerm, page, perPage, sortBy, sortOrder]);
-
-  useEffect(() => {
-    getRoles();
-  }, []);
 
   // ----------------- Render -----------------
   return (
     <div className="main">
       <AdminSidebar />
-      <Header pageTitle={t("sidebar.branches")} />
+      <Header pageTitle={t("branch.plural")} />
       <div className="container">
         <div className="dashboard-container">
-          {/* --------- Branchs Table --------- */}
+          {/* --------- Companies Table --------- */}
           <div className="table-container">
             <div className="table-header">
-              <h3 className="table-title">{t("branches.list_title")}</h3>
+              <h3 className="table-title">{t("branch.plural")}</h3>
               <div className="table-actions">
                 <input
                   type="text"
@@ -235,7 +223,7 @@ const BranchList = () => {
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
                 <button className="btn btn-primary" onClick={openAddPopup}>
-                  {t("branches.add")}
+                  {t("common.add")} {t("branch.singular")}
                 </button>
               </div>
             </div>
@@ -244,10 +232,10 @@ const BranchList = () => {
               <table className="table">
                 <thead>
                   <tr>
-                    <th>{t("branches.user_id")}</th>
-                    <th>{t("branches.user_type")}</th>
-                    <th>{t("branches.email")}</th>
-                    <th>{t("branches.username")}</th>
+                    <th>{t("users.name")}</th>
+                    <th>{t("company.street")}</th>
+                    <th>{t("company.postcode")}</th>
+                    <th>{t("company.city")}</th>
                     <th>{t("common.actions")}</th>
                   </tr>
                 </thead>
@@ -258,23 +246,23 @@ const BranchList = () => {
                         {t("common.loading")}...
                       </td>
                     </tr>
-                  ) : userList.length > 0 ? (
-                    userList.map((user) => (
-                      <tr key={user.id}>
-                        <td>{user.user_key}</td>
-                        <td>{user.role}</td>
-                        <td>{user.email}</td>
-                        <td>{user.username}</td>
+                  ) : branchList.length > 0 ? (
+                    branchList.map((branch) => (
+                      <tr key={branch.id}>
+                        <td>{branch.name}</td>
+                        <td>{branch.street}</td>
+                        <td>{branch.postcode}</td>
+                        <td>{branch.city}</td>
                         <td>
                           <button
                             className="btn-action btn-view"
-                            onClick={() => openEditPopup(user)}
+                            onClick={() => openEditPopup(branch)}
                           >
                             {t("common.edit")}
                           </button>
                           <button
                             className="btn-action btn-trash"
-                            onClick={() => handleDelete(user.id)}
+                            onClick={() => handleDelete(branch.id)}
                           >
                             {t("common.delete")}
                           </button>
@@ -308,8 +296,8 @@ const BranchList = () => {
                 <div className="popup-header">
                   <h2>
                     {formMode === "edit"
-                      ? `${t("branches.edit")}`
-                      : `${t("branches.add")}`}
+                      ? `${t("common.edit")} ${t("branch.singular")}`
+                      : `${t("common.add")} ${t("branch.singular")}`}
                   </h2>
                   <img
                     src={CrossIcon}
@@ -323,25 +311,7 @@ const BranchList = () => {
                     <div className="form-container">
                       <ul className="form-row">
                         <li>
-                          <label>{t("branches.user_type")}</label>
-                          <select
-                            name="role_id"
-                            className="form-control"
-                            value={formData.role_id}
-                            onChange={handleChange}
-                          >
-                            <option value="" disabled>
-                              {t("common.select_placeholder")}
-                            </option>
-                            {userTypeList.map((type) => (
-                              <option key={type.id} value={type.id}>
-                                {type.role_name}
-                              </option>
-                            ))}
-                          </select>
-                        </li>
-                        <li>
-                          <label>{t("branches.name")}</label>
+                          <label>{t("users.name")}</label>
                           <input
                             type="text"
                             name="name"
@@ -352,49 +322,49 @@ const BranchList = () => {
                           />
                         </li>
                         <li>
-                          <label>{t("branches.email")}</label>
-                          <input
-                            type="email"
-                            name="email"
-                            className="form-control"
-                            placeholder={t("common.enter_placeholder")}
-                            value={formData.email}
-                            onChange={handleChange}
-                          />
-                        </li>
-                        <li>
-                          <label>{t("branches.username")}</label>
+                          <label>{t("company.street")}</label>
                           <input
                             type="text"
-                            name="username"
+                            name="street"
                             className="form-control"
                             placeholder={t("common.enter_placeholder")}
-                            value={formData.username}
+                            value={formData.street}
                             onChange={handleChange}
                           />
                         </li>
                         <li>
-                          <label>{t("password.title")}</label>
+                          <label>{t("company.postcode")}</label>
                           <input
-                            type="password"
-                            name="password"
+                            type="text"
+                            name="postcode"
                             className="form-control"
                             placeholder={t("common.enter_placeholder")}
-                            value={formData.password}
+                            value={formData.postcode}
                             onChange={handleChange}
                           />
                         </li>
-                        {/* <li>
-                            <label>{t("password.confirm_password")}</label>
-                            <input
-                              type="password"
-                              name="password_confirmation"
-                              className="form-control"
-                              placeholder={t("common.enter_placeholder")}
-                              value={formData.password_confirmation}
-                              onChange={handleChange}
-                            />
-                          </li> */}
+                        <li>
+                          <label>{t("company.city")}</label>
+                          <input
+                            type="text"
+                            name="city"
+                            className="form-control"
+                            placeholder={t("common.enter_placeholder")}
+                            value={formData.city}
+                            onChange={handleChange}
+                          />
+                        </li>
+                        <li>
+                          <label>{t("company.country")}</label>
+                          <input
+                            type="text"
+                            name="country"
+                            className="form-control"
+                            placeholder={t("common.enter_placeholder")}
+                            value={formData.country}
+                            onChange={handleChange}
+                          />
+                        </li>
                       </ul>
                     </div>
                   </div>
@@ -418,54 +388,60 @@ const BranchList = () => {
               </div>
             </div>
           )}
+          {/* --------- Delete Confirmation Modal --------- */}
+          {openDeleteModal && (
+            <div className="popup-overlay">
+              <div className="popup-container modal-sm warning-modal-box">
+                <div className="popup-header">
+                  <h2>{t("common.delete")}!</h2>
+                  <img
+                    src={CrossIcon}
+                    alt="close"
+                    className="popup-close"
+                    onClick={() => {
+                      setOpenDeleteModal(false);
+                      setReqId(null);
+                    }}
+                  />
+                </div>
+
+                <div className="popup-body text-center">
+                  <p>{t("common.delete.confirm")}</p>
+                  <div className="btn-group">
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      disabled={delLoading}
+                      onClick={handleConfirmDelete}
+                    >
+                      {delLoading ? (
+                        <CircularProgress
+                          size={20}
+                          style={{ color: "white" }}
+                        />
+                      ) : (
+                        t("common.delete")
+                      )}
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-secondary"
+                      onClick={() => {
+                        setOpenDeleteModal(false);
+                        setReqId(null);
+                      }}
+                    >
+                      {t("common.cancel")}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="popup-footer"></div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
-      {/* --------- Delete Confirmation Modal --------- */}
-      <Modal
-        open={openDeleteModal}
-        onClose={() => setOpenDeleteModal(false)}
-        aria-labelledby="delete-user-title"
-        aria-describedby="delete-user-description"
-      >
-        <Box
-          className="modal-box warning-modal-box"
-          sx={{ height: 400, width: 445 }}
-        >
-          <div className="modal-body">
-            <img src={warningImg} alt="Warning" />
-            <h3>{t("common.delete")}!</h3>
-            <p>
-              {reqId
-                ? t("branches.delete_single_confirm")
-                : t("branches.delete_selected_confirm")}
-            </p>
-            <div className="modal-btn-group">
-              <button
-                type="button"
-                className="black-btn"
-                disabled={delLoading}
-                onClick={handleConfirmDelete}
-              >
-                {delLoading ? (
-                  <CircularProgress size={25} style={{ color: "white" }} />
-                ) : (
-                  t("common.delete")
-                )}
-              </button>
-              <button
-                type="button"
-                className="white-btn"
-                onClick={() => {
-                  setOpenDeleteModal(false);
-                  setReqId(null);
-                }}
-              >
-                {t("common.cancel")}
-              </button>
-            </div>
-          </div>
-        </Box>
-      </Modal>
     </div>
   );
 };

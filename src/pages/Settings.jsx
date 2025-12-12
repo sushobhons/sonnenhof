@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import CircularProgress from "@mui/material/CircularProgress";
-import AdminSidebar from "../layouts/AdminSidebar";
+import Sidebar from "../layouts/Sidebar";
 import Header from "../layouts/AdminHeader";
 import API from "../api/axios";
 import useAuth from "../auth/useAuth";
@@ -206,11 +206,11 @@ function Settings() {
 
   return (
     <div className="main">
-      <AdminSidebar />
+      <Sidebar />
       <Header pageTitle={t("sidebar.settings")} />
       <div className="container">
         <div className="dashboard-container">
-          <div className="table-container">
+          {/* <div className="table-container">
             <div className="table-header">
               <h3 className="table-title">{t("users.access_rights")}</h3>
               <div className="table-actions">
@@ -259,7 +259,7 @@ function Settings() {
                 </tbody>
               </table>
             </div>
-          </div>
+          </div> */}
 
           <div className="card">
             <div className="card-body">
@@ -291,17 +291,21 @@ function Settings() {
               </div>
               <div className="btn-group">
                 <button
-                  className="btn btn-secondary"
-                  onClick={openPasswordPopup}
-                >
-                  {t("password.change_password")}
-                </button>
-                <button
                   className="btn btn-primary"
                   disabled={updatingAccount}
                   onClick={handleAccountUpdate}
                 >
-                  {updatingAccount ? <CircularProgress size={20} /> : "Save"}
+                  {updatingAccount ? (
+                    <CircularProgress size={20} />
+                  ) : (
+                    t("common.save")
+                  )}
+                </button>
+                <button
+                  className="btn btn-secondary"
+                  onClick={openPasswordPopup}
+                >
+                  {t("password.change_password")}
                 </button>
               </div>
             </div>

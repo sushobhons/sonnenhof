@@ -11,9 +11,8 @@ const API = axios.create({
 
 // Interceptor for adding token
 API.interceptors.request.use((config) => {
-  const token = localStorage.getItem("CashTexAuthToken");
+  const token = localStorage.getItem("SonnenhofAuthToken");
   const language = i18n.language || "en";
-
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }

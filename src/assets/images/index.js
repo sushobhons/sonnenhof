@@ -1,5 +1,6 @@
 export { default as usFlag } from "./us.png";
 export { default as deFlag } from "./de.png";
+export { default as hrFlag } from "./hr.png";
 
 export { default as lineIcon } from "./menu-line.svg";
 
@@ -24,3 +25,4 @@ export { default as exitFullscreenIcon } from "./exit-fullscreen.svg";
 export { default as InfiniteLoader } from "./infinite.gif";
 export { default as coinImg } from "./coin-img.png";
 export { default as warningImg } from "./warning-img.png";
+export { default as newTabImg } from "./revenue-up-icon.svg";

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import AdminSidebar from "../layouts/AdminSidebar";
@@ -132,11 +133,13 @@ const CompanyList = () => {
     try {
       setLoading(true);
       const { data } = await API.get("/companies", {
-        search: searchTerm,
-        page,
-        per_page: perPage,
-        sort_by: sortBy,
-        sort_order: sortOrder,
+        params: {
+          search: searchTerm,
+          page,
+          per_page: perPage,
+          sort_by: sortBy,
+          sort_order: sortOrder,
+        },
       });
 
       setCompanyList(data?.data?.companies || []);
@@ -247,7 +250,11 @@ const CompanyList = () => {
                         <td>{company.street}</td>
                         <td>{company.postcode}</td>
                         <td>{company.city}</td>
-                        <td>{company.branch_count}</td>
+                        <td className="count">
+                          <Link to={`/admin/companies/${company.id}/branches`}>
+                            {company.branch_count}
+                          </Link>
+                        </td>
                         <td>
                           <button
                             className="btn-action btn-view"

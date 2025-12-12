@@ -13,7 +13,6 @@ const TableFooter = ({
   const totalPages = Math.ceil(totalRecords / perPage);
   const start = totalRecords === 0 ? 0 : (page - 1) * perPage + 1;
   const end = Math.min(start + perPage - 1, totalRecords);
-  console.log(totalPages, start, end);
 
   const renderPagination = () => {
     const pages = [];

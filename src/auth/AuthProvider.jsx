@@ -4,7 +4,7 @@ export const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
-    const storedUser = localStorage.getItem("CashTexUser");
+    const storedUser = localStorage.getItem("SonnenhofUser");
     try {
       return storedUser ? JSON.parse(storedUser) : null;
     } catch (error) {
@@ -13,19 +13,19 @@ export const AuthProvider = ({ children }) => {
     }
   });
   const [token, setToken] = useState(() =>
-    localStorage.getItem("CashTexAuthToken")
+    localStorage.getItem("SonnenhofAuthToken")
   );
 
   const login = (userData, token) => {
-    localStorage.setItem("CashTexAuthToken", token);
-    localStorage.setItem("CashTexUser", JSON.stringify(userData));
+    localStorage.setItem("SonnenhofAuthToken", token);
+    localStorage.setItem("SonnenhofUser", JSON.stringify(userData));
     setUser(userData);
     setToken(token);
   };
 
   const logout = () => {
-    localStorage.removeItem("CashTexAuthToken");
-    localStorage.removeItem("CashTexUser");
+    localStorage.removeItem("SonnenhofAuthToken");
+    localStorage.removeItem("SonnenhofUser");
     setUser(null);
     setToken(null);
   };
@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }) => {
   const updateUser = (updates) => {
     const updatedUser = { ...user, ...updates };
     setUser(updatedUser);
-    localStorage.setItem("CashTexUser", JSON.stringify(updatedUser));
+    localStorage.setItem("SonnenhofUser", JSON.stringify(updatedUser));
   };
 
   return (

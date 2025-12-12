@@ -13,12 +13,12 @@ const browserLang = (
   navigator.language ||
   "en"
 ).split("-")[0];
-const lang = localStorage.getItem("CashTexLanguage") || browserLang || "en";
+const lang = localStorage.getItem("SonnenhofLanguage") || browserLang || "en";
 
 loadLanguage(lang).then(() => {
   ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
-      <BrowserRouter basename="/">
+      <BrowserRouter basename="/sonnenhof/">
         {/* <BrowserRouter> */}
         <AuthProvider>
           <ThemeProvider>

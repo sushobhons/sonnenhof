@@ -18,22 +18,57 @@ import defaultProfileImg from "../assets/images/default-profile-img.png";
 import uploadIcon from "../assets/images/upload-icon2.png";
 import uploadIcon2 from "../assets/images/upload-icon3.png";
 import loaderImg from "../assets/images/loader.gif";
-import { deFlag, usFlag } from "@/assets/images";
+import { deFlag, usFlag, hrFlag } from "@/assets/images";
 import lineIcon from "../assets/images/menu-line.svg";
 
 const Header = ({ pageTitle }) => {
   const { theme, toggleTheme } = useTheme();
   const [collapsed, setCollapsed] = useState(false);
 
+  // This toggles local collapsed state (if you use it elsewhere)
   const toggleSidebar = () => {
-    setCollapsed(!collapsed);
+    setCollapsed((s) => !s);
+    // optional: toggle classes for desktop collapse if you use them
+    const sidebarEl = document.querySelector(".sidebar");
+    if (sidebarEl) sidebarEl.classList.toggle("collapsed");
+    const rootContainer = document.querySelector(".container");
+    if (rootContainer) rootContainer.classList.toggle("sidebar-collapsed");
   };
+
+  // MOBILE: toggle the sidebar open/closed (uses CSS .sidebar-open and body .sidebar-hidden)
+  const toggleMobileMenu = () => {
+    const sidebarEl = document.querySelector(".sidebar");
+    if (!sidebarEl) return;
+    sidebarEl.classList.toggle("sidebar-open");
+    document.body.classList.toggle("sidebar-hidden");
+  };
+
+  // If component unmounts ensure we remove mobile classes so layout doesn't get stuck
+  useEffect(() => {
+    return () => {
+      const sidebarEl = document.querySelector(".sidebar");
+      if (sidebarEl && sidebarEl.classList.contains("sidebar-open")) {
+        sidebarEl.classList.remove("sidebar-open");
+      }
+      if (document.body.classList.contains("sidebar-hidden")) {
+        document.body.classList.remove("sidebar-hidden");
+      }
+    };
+  }, []);
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isDropdownOpen2, setIsDropdownOpen2] = useState(false);
   const [selectedLang, setSelectedLang] = useState(i18n.language);
-  const [selectedFlag, setSelectedFlag] = useState(
-    i18n.language === "de" ? deFlag : usFlag
-  );
+  const [selectedFlag, setSelectedFlag] = useState(() => {
+    switch (i18n.language) {
+      case "de":
+        return deFlag;
+      case "hr":
+        return hrFlag;
+      default:
+        return usFlag; // english default
+    }
+  });
   const { user, logout, updateUser } = useAuth();
   const profileImage = user?.profile_pic || null;
 
@@ -54,8 +89,12 @@ const Header = ({ pageTitle }) => {
   });
 
   const handleLogout = () => {
-    logout();
+    // ensure mobile sidebar closes on logout
+    const sidebarEl = document.querySelector(".sidebar");
+    if (sidebarEl) sidebarEl.classList.remove("sidebar-open");
+    document.body.classList.remove("sidebar-hidden");
 
+    logout();
     navigate("/");
   };
 
@@ -68,12 +107,22 @@ const Header = ({ pageTitle }) => {
 
   const handleLanguageChange = async (lang) => {
     setIsDropdownOpen2(false);
+
     await loadLanguage(lang);
     setSelectedLang(lang);
-    if (lang === "de") {
-      setSelectedFlag(frenchFlag);
-    } else {
-      setSelectedFlag(usFlag);
+
+    switch (lang) {
+      case "de":
+        setSelectedFlag(deFlag);
+        break;
+
+      case "hr":
+        setSelectedFlag(hrFlag);
+        break;
+
+      default:
+        setSelectedFlag(usFlag);
+        break;
     }
   };
 
@@ -198,7 +247,28 @@ const Header = ({ pageTitle }) => {
 
   return (
     <div className="app-header">
-      <h2 className="app-header__title">{t(pageTitle)}</h2>
+      {/* Mobile menu toggle - visible via CSS on small screens */}
+      <button
+        className="mobile-menu-btn"
+        onClick={() => {
+          // dispatch event handled by Sidebar
+          window.dispatchEvent(new Event("toggleSidebar"));
+        }}
+        aria-label="Toggle menu"
+        aria-expanded={document.body.classList.contains("sidebar-open")}
+        style={{
+          background: "transparent",
+          border: "none",
+          marginRight: 12,
+          display: "inline-flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <img src={lineIcon} alt="menu" style={{ width: 20, height: 20 }} />
+      </button>
+
+      {/* <h2 className="app-header__title">{t(pageTitle)}</h2> */}
 
       <div className="app-header__right">
         {/* Notifications */}
@@ -218,26 +288,14 @@ const Header = ({ pageTitle }) => {
           </div>
 
           <ul
-            className={`app-header__dropdown-menu ${
-              isDropdownOpen ? "open" : ""
-            }`}
+            className={`app-header__dropdown-menu ${isDropdownOpen ? "open" : ""
+              }`}
           >
             <li className="app-header__dropdown-item">
-              <Link to="/admin/dashboard" className="app-header__dropdown-link">
+              <Link to="/dashboard" className="app-header__dropdown-link">
                 {t("dashboard.title")}
               </Link>
             </li>
-            {/* <li className="app-header__dropdown-item">
-              <Link
-                onClick={() => {
-                  toggleDropdown();
-                  setAccountModal(true);
-                }}
-                className="app-header__dropdown-link"
-              >
-                {t("account.my_account")}
-              </Link>
-            </li> */}
             <li className="app-header__dropdown-item">
               <button onClick={handleLogout} className="app-header__logout-btn">
                 {t("dashboard.logout")}
@@ -251,25 +309,25 @@ const Header = ({ pageTitle }) => {
           <div className="app-header__user" onClick={toggleDropdown2}>
             <img src={selectedFlag} alt="country" />
           </div>
-          <ul
-            className={`app-header__dropdown-menu ${
-              isDropdownOpen2 ? "open" : ""
-            }`}
-          >
+          <ul className={`app-header__dropdown-menu ${isDropdownOpen2 ? "open" : ""}`}>
             <li className="app-header__dropdown-item">
-              <button
-                onClick={() => handleLanguageChange("en")}
-                className="app-header__logout-btn"
-              >
-                English
+              <button onClick={() => handleLanguageChange("en")} className="app-header__logout-btn">
+                <img src={usFlag} alt="English" className="lang-flag" />
+                {t("common.english", { defaultValue: "English" })}
               </button>
             </li>
+
             <li className="app-header__dropdown-item">
-              <button
-                onClick={() => handleLanguageChange("de")}
-                className="app-header__logout-btn"
-              >
-                Deutsch
+              <button onClick={() => handleLanguageChange("de")} className="app-header__logout-btn">
+                <img src={deFlag} alt="German" className="lang-flag" />
+                {t("common.german", { defaultValue: "German" })}
+              </button>
+            </li>
+
+            <li className="app-header__dropdown-item">
+              <button onClick={() => handleLanguageChange("hr")} className="app-header__logout-btn">
+                <img src={hrFlag} alt="Croatian" className="lang-flag" />
+                {t("common.croatian", { defaultValue: "Croatian" })}
               </button>
             </li>
           </ul>

@@ -10,17 +10,16 @@ import { useTheme } from "../layouts/ThemeProvider";
 //import Logo from "../assets/images/logo.svg";
 import EyeOpen from "../assets/images/eyeOpen.svg";
 import EyeClose from "../assets/images/eyeClose.svg";
+import Logo from "../assets/images/logo.svg";
 import { DEFAULT_FULL_LOGO, IMAGE_URL } from "../utils/apiUrl";
 import { InfiniteLoader } from "@/assets/images";
-import { getDomainRole } from "../utils/getDomainRole";
+import i18n from "../i18n";
 
 const Login = () => {
-  const { username: subDomain } = getDomainRole();
-  const { resellerId } = useParams();
   const [logo, setLogo] = useState(DEFAULT_FULL_LOGO);
   const [pageLoader, setPageLoader] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [username, setUsername] = useState("");
+  const [email, setemail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const { login } = useAuth();
@@ -35,16 +34,18 @@ const Login = () => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      const response = await API.post("/login", {
-        username,
+      const response = await API.post("/auth/login", {
+        email,
         password,
       });
 
-      const user = response.data.user;
-      const token = response.data.token;
+      const user = response?.data?.data?.user;
+      const token = response?.data?.data?.token;
+
+
       login(user, token);
 
-      navigate("/admin/dashboard");
+      navigate("/dashboard");
     } catch (error) {
       toast.error(error?.response?.data?.message || t("common.create.error"), {
         theme: "dark",
@@ -72,24 +73,24 @@ const Login = () => {
       ) : (
         <div className="admin-login">
           <div className="admin-login__logo">
-            <img src={logo} alt="Logo" style={{ maxWidth: 145 }} />
+            <img src={Logo} alt="Sonnenhof am Park" />
           </div>
 
           <div className="admin-login__box">
-            <h2>{t("auth.welcome_back")}</h2>
-            <p>{t("auth.please_sign_in")}</p>
+            <h2>{t("messages.welcome_back")}</h2>
+            <p>{t("messages.please_sign_in")}</p>
 
             <form onSubmit={handleSubmit} className="admin-login__form">
               <div className="form-container">
-                {/* Username */}
+                {/* email */}
                 <div className="form-group">
-                  <label htmlFor="username">{t("auth.username")}*</label>
+                  <label htmlFor="email">{t("auth.email")}*</label>
                   <input
-                    id="username"
+                    id="email"
                     type="text"
                     className="form-control"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    value={email}
+                    onChange={(e) => setemail(e.target.value)}
                     required
                   />
                 </div>
@@ -136,9 +137,9 @@ const Login = () => {
                 </div>
 
                 {/* Forgot Password */}
-                <div className="form-group admin-login__forgot">
+                {/* <div className="form-group admin-login__forgot">
                   <a>{t("auth.forgot_password")}</a>
-                </div>
+                </div> */}
               </div>
             </form>
           </div>
